@@ -3,6 +3,17 @@ body {
   font-size: 16px;
 }
 
+p {
+    height: max-content;
+    background-color: white;
+    vertical-align: middle;
+}
+
+span{
+    color: red;
+    font-family: monospace, Times, serif;
+}
+
 textarea {
   background: transparent;
   border: none;
@@ -14,6 +25,11 @@ textarea {
 
 .description {
   white-space: pre-wrap;
+}
+
+.fade-out{
+    opacity: 0;
+    transition: opacity 2s;
 }
 
 .time-block {
@@ -28,6 +44,14 @@ textarea {
   background-color: #ffffff;
   color: #000000;
   border-top: 1px dashed #000000;
+}
+
+.no-opacity{
+    opacity: 0;
+}
+
+.all-opacity{
+    opacity: 100;
 }
 
 .past {
@@ -58,6 +82,9 @@ textarea {
   transition: all 0.3s ease-in-out;
 }
 
-.zero-bottom-margin{
-    margin-bottom: 0;
+#event-saved-confirmation{
+    width: fit-content;
+    margin: auto;
 }
+
+
