@@ -3,6 +3,14 @@ body {
   font-size: 16px;
 }
 
+header{
+    padding: 3rem;
+}
+
+i{
+    text-align: center;
+}
+
 p {
     height: max-content;
     background-color: white;
@@ -23,6 +31,10 @@ textarea {
   padding: 10px;
 }
 
+.align-center{
+    text-align: center;
+}
+
 .description {
   white-space: pre-wrap;
 }
@@ -38,6 +50,9 @@ textarea {
 
 .row {
   border-top: 1px solid white;
+  flex-wrap: nowrap;
+  justify-content: center;
+  
 }
 
 .hour {
@@ -75,6 +90,9 @@ textarea {
   border-bottom-right-radius: 15px;
   background-color: #06aed5;
   color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .saveBtn i:hover {
@@ -85,6 +103,80 @@ textarea {
 #event-saved-confirmation{
     width: fit-content;
     margin: auto;
+}
+
+@media screen and (max-width: 440px) {
+    p{
+        width: 100%;
+        padding-left: 0;
+
+        font-size: 5vw;
+    }
+
+    .col-small {
+
+        flex: 0 0 auto;
+        width: 30%;
+    }
+}
+
+@media  screen and (max-width: 500px){
+    
+    header{
+        padding-left: 0.7em;
+        padding-right: 0.7em;
+    }
+}
+
+@media screen and (max-width: 380px) {
+    
+    #work-day-scheduler-heading {
+        font-size: 9.5vw;
+    }
+}
+
+@media screen and (max-width: 350px) {
+
+    header{
+        padding-left: 0.5em;
+        padding-right: 0.5em;
+    }
+
+
+
+    p.align-center{
+        font-size: 7.5vw;
+        
+        width: 90%;
+    }
+
+
+
+
+
+    
+
+
+}
+
+@media screen and (max-width: 250px) {
+
+    .col-small {
+
+        width: 35%;
+    }
+}
+
+
+@media screen and (max-width: 200px) {
+    p{
+        font-size: 5vw;
+    }
+
+    .col-small {
+        padding-left: 0.25em;
+        width: 45%; 
+    }
 }
 
 
