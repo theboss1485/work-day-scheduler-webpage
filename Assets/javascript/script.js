@@ -1,8 +1,18 @@
+
+
 // Wrap all code that interacts with the DOM in a call to jQuery to ensure that
 // the code isn't run until the browser has finished rendering all the elements
 // in the html.
-$(function () {
-    localStorage.clear();
+$(document).ready(function() {
+
+    // displayCurrentDay();
+
+    // function displayCurrentDay(){
+
+    //     var date = dayjs().format('dddd, MMMM Do, YYYY');
+    //     document.getElementById("current-day").textContent = date;
+    // }
+    // localStorage.clear();
 
 
     var eventSavedConfirmation = document.getElementById("event-saved-confirmation");
