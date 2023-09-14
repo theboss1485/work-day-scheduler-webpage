@@ -5,34 +5,93 @@
 // in the html.
 $(document).ready(function() {
 
-    // displayCurrentDay();
-
-    // function displayCurrentDay(){
-
-    //     var date = dayjs().format('dddd, MMMM Do, YYYY');
-    //     document.getElementById("current-day").textContent = date;
-    // }
     // localStorage.clear();
 
+    displayCurrentDay();
+    setInterval(displayCurrentDay, 1000);
+    displayCorrectHour();
+    setInterval(displayCorrectHour, 1000);
 
-    var eventSavedConfirmation = document.getElementById("event-saved-confirmation");
-    var buttons = document.getElementsByClassName('saveBtn');
-    var sections = document.getElementsByClassName('time-block');
-    var counter = 0;
-    var hour = null;
+    function displayCurrentDay(){
 
-    var appointmentsArray = JSON.parse(localStorage.getItem("appointments"));
+        var day = dayjs().format('D');
+        var suffix = renderSuffix(day);
+        
+        //I used this rather convoluted way of displaying the date because I was having trouble when using other ways of displaying it. 
+        var date = dayjs().format(`dddd, MMMM ${day}`) + suffix + ', ' + dayjs().format(`YYYY`);
+        document.getElementById("current-day").textContent = date;
 
-    
-    for(counter = 0; counter < buttons.length; counter++){
-        buttons[counter].addEventListener("click", saveEvent);
+        
+    }
+
+    function displayCorrectHour(){
+        var hourString = dayjs().format('HH');
+        var hour = parseInt(hourString);
+        
+
+        var hours = document.getElementsByClassName("description");
+
+        for(counter = 9; counter < 18; counter++){
+
+            var hourTextarea = document.getElementById("hour-" + counter + "-textarea");
+
+            if(hour > counter){
+
+                hourTextarea.classList.add("past");
+                hourTextarea.classList.remove("present");
+                hourTextarea.classList.remove("future");
+                
+
+            } else if(hour < counter){
+
+                hourTextarea.classList.add("future");
+                hourTextarea.classList.remove("present");
+                hourTextarea.classList.remove("past");
+
+            } else {
+
+                hourTextarea.classList.add("present");
+                hourTextarea.classList.remove("future");
+                hourTextarea.classList.remove("past");
+            }
+
+
+        }
+
+        
+    }
+
+    //The Xpert Learning Assistant gave me a lot of the code for this function and I made some adjustments.
+    function renderSuffix(day){
+
+        switch(day % 10){
+            case 1:
+                if(day === "11")
+                    return 'th';
+                else
+                    return 'st';
+            case 2:
+                if(day === "12")
+                    return 'th';
+                else
+                    return 'nd';
+            case 3:
+                if(day === "13")
+                    return 'th';
+                else
+                    return 'rd';
+            default:
+                return 'th';
+        }
     }
 
     renderSavedEvents();
 
     function saveEvent(event){
 
-        var item = null;
+        var eventText = document.getElementById("event");
+        var addRemoval = document.getElementById("add-removal");
+        var emoji = document.getElementById("emoji");
 
         if(event.target.tagName === "I"){
 
@@ -44,83 +103,81 @@ $(document).ready(function() {
         }
         
         var textarea = this.previousElementSibling;
+        var foundEvent = findAppointment()
 
-        if(textarea.value.trim() === ""){
-
-            return;
-        }
-
-        if(appointmentsArray === null){
-                
-                appointmentsArray = [];
-            }
-
-        
-
-            var foundEvent = findAppointment()
-
-        if(foundEvent !== undefined){
-
-            if(foundEvent.event === textarea.value){
+        if(foundEvent === textarea.value){
             
-                return;
-            }
+            eventText.textContent = "Event"
+            addRemoval.textContent = "already in";
+            emoji.textContent = "😊";
+
+        } else if(foundEvent !== null && textarea.value.trim() === ""){
+
+            localStorage.removeItem(hour.id);
+
+            eventText.textContent = "Event"
+            addRemoval.textContent = "removed from";
+            emoji.textContent = "❌";
+
+        } else if(foundEvent === null && textarea.value.trim() === ""){
+
+            eventText.textContent = "No event"
+            addRemoval.textContent = "to save to";
+            emoji.textContent = "😞";
+
+        } else {
+
+            localStorage.setItem(hour.id, textarea.value);
+            eventText.textContent = "Event"
+            addRemoval.textContent = "saved to"
+            emoji.textContent = "✔️"
         }
-        
-       
-        
-
-        var appointment = {hour: hour.id, event: textarea.value};
-        
-
-        if(findAppointment() !== null){
-
-            var removalIndex = appointmentsArray.indexOf(hour);
-            appointmentsArray.splice(removalIndex, 1);
-
-        }
-
-        appointmentsArray.push(appointment);
-        
-        localStorage.setItem("appointments", JSON.stringify(appointmentsArray));
 
         eventSavedConfirmation.classList.remove("no-opacity");
         eventSavedConfirmation.classList.remove("opacity-0");
     
-        setTimeout(fadeOut, 5000);
+        setTimeout(fadeOut, 2000);
     }
 
     function findAppointment(){
-        var foundEvent = appointmentsArray.find(item => item.hour === hour.id)
-        return foundEvent
+
+        return localStorage.getItem(hour.id);
     }
 
 
     function fadeOut(){
+
         eventSavedConfirmation.classList.add("fade-out");
 
         setTimeout(function(){
             eventSavedConfirmation.classList.add("no-opacity");
             eventSavedConfirmation.classList.remove("fade-out");
         }, 2000);
-        
     }
 
     function renderSavedEvents(){
 
-        var appointment = null;
-        
-        if(appointmentsArray !== null  && appointmentsArray !== []){
-            
-            for(var counter = 0; counter < appointmentsArray.length; counter++){
+        for(var hourCounter = 9; hourCounter < 18; hourCounter++){
 
-                appointment = appointmentsArray[counter];
+            var storedEvent = localStorage.getItem("hour-" + hourCounter);
 
-                var parentSection = document.getElementById(appointment.hour);
-                var textarea = parentSection.querySelector("textarea");
-                textarea.value = appointment.event;
+            if(storedEvent !== null){
+
+                document.getElementById("hour-" + hourCounter + "-textarea").value = storedEvent;
             }
         }
+    }
+
+    var eventSavedConfirmation = document.getElementById("event-saved-confirmation");
+    var buttons = document.getElementsByClassName('saveBtn');
+    var sections = document.getElementsByClassName('time-block');
+    var counter = 0;
+    var hour = null;
+
+    
+    for(counter = 0; counter < buttons.length; counter++){
+
+        buttons[counter].addEventListener("click", saveEvent);
     }
 
   // TODO: Add a listener for click events on the save button. This code should

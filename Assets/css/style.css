@@ -17,10 +17,7 @@ p {
     vertical-align: middle;
 }
 
-span{
-    color: red;
-    font-family: monospace, Times, serif;
-}
+
 
 textarea {
   background: transparent;
@@ -103,6 +100,11 @@ textarea {
 #event-saved-confirmation{
     width: fit-content;
     margin: auto;
+}
+
+#local-storage-text{
+    color: red;
+    font-family: monospace, Times, serif;
 }
 
 @media screen and (max-width: 440px) {
