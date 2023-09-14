@@ -17,8 +17,6 @@ p {
     vertical-align: middle;
 }
 
-
-
 textarea {
   background: transparent;
   border: none;
@@ -30,6 +28,17 @@ textarea {
 
 .align-center{
     text-align: center;
+}
+
+.bottom-border{
+    border-bottom: 1px dashed #000000;
+    height: 100%;
+}
+
+.custom-padding{
+    padding-top: calc((4.189em) / 2);
+    padding-bottom: calc((4.189em) / 2);
+    margin-bottom: 0;
 }
 
 .description {
@@ -107,12 +116,17 @@ textarea {
     font-family: monospace, Times, serif;
 }
 
+#hour-17{
+    margin-bottom: 1.5em;
+}
+
 @media screen and (max-width: 440px) {
     p{
         width: 100%;
         padding-left: 0;
 
         font-size: 5vw;
+        color: black;
     }
 
     .col-small {
@@ -144,21 +158,11 @@ textarea {
         padding-right: 0.5em;
     }
 
-
-
     p.align-center{
         font-size: 7.5vw;
         
         width: 90%;
     }
-
-
-
-
-
-    
-
-
 }
 
 @media screen and (max-width: 250px) {
@@ -166,6 +170,12 @@ textarea {
     .col-small {
 
         width: 35%;
+    }
+}
+
+@media screen and (max-width: 225px){
+    textarea{
+        font-size: 8vw;
     }
 }
 
@@ -178,6 +188,10 @@ textarea {
     .col-small {
         padding-left: 0.25em;
         width: 45%; 
+    }
+
+    .description{
+        white-space: nowrap;
     }
 }
 
