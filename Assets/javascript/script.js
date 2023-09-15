@@ -1,17 +1,14 @@
-
-
-// Wrap all code that interacts with the DOM in a call to jQuery to ensure that
-// the code isn't run until the browser has finished rendering all the elements
-// in the html.
+// This function call to jQuery keeps the script from running until the page has loaded.
 $(document).ready(function() {
 
-    // localStorage.clear();
-
+    /* The functions to display the current day and the correct hour are called each second so as to 
+    display the correct day and hour in real time or near real time.*/
     displayCurrentDay();
     setInterval(displayCurrentDay, 1000);
     displayCorrectHour();
     setInterval(displayCorrectHour, 1000);
 
+    // This function gets the current date and displays it on the page.
     function displayCurrentDay(){
 
         var day = dayjs().format('D');
@@ -24,12 +21,12 @@ $(document).ready(function() {
         
     }
 
+    /* This function colors the textarea of the current hour red, the textareas of past hours grey and the 
+    textareas of future hours green.*/
     function displayCorrectHour(){
+
         var hourString = dayjs().format('HH');
         var hour = parseInt(hourString);
-        
-
-        var hours = document.getElementsByClassName("description");
 
         for(counter = 9; counter < 18; counter++){
 
@@ -41,7 +38,6 @@ $(document).ready(function() {
                 hourTextarea.classList.remove("present");
                 hourTextarea.classList.remove("future");
                 
-
             } else if(hour < counter){
 
                 hourTextarea.classList.add("future");
@@ -54,14 +50,11 @@ $(document).ready(function() {
                 hourTextarea.classList.remove("future");
                 hourTextarea.classList.remove("past");
             }
-
-
         }
-
-        
     }
 
-    //The Xpert Learning Assistant gave me a lot of the code for this function and I made some adjustments.
+    /*The Xpert Learning Assistant gave me a lot of the code for this function and I made some adjustments.
+    This function gives the correct suffix for the date, depending on what day of the month it is.*/
     function renderSuffix(day){
 
         switch(day % 10){
@@ -87,24 +80,20 @@ $(document).ready(function() {
 
     renderSavedEvents();
 
+    /*This function saves an event to local storage when the user types an event on the page and clicks the corresponding Save button.  It also removes
+    an event from local storage if the user deletes the event and clicks the corresponding Save button.*/
     function saveEvent(event){
+
+        hour = event.target.closest('.row');
 
         var eventText = document.getElementById("event");
         var addRemoval = document.getElementById("add-removal");
         var emoji = document.getElementById("emoji");
-
-        if(event.target.tagName === "I"){
-
-            hour = event.target.parentNode.parentNode;
-
-        } else {
-
-            hour = event.target.parentNode;
-        }
-        
         var textarea = this.previousElementSibling;
-        var foundEvent = findAppointment()
+        var foundEvent = findEvent();
 
+        /* If the user clicks the Save button when an event already exists for a given hour, 
+        but the user hasn't modified the event, the system will let the user know the event is already saved. */ 
         if(foundEvent === textarea.value){
             
             eventText.textContent = "Event"
@@ -119,6 +108,8 @@ $(document).ready(function() {
             addRemoval.textContent = "removed from";
             emoji.textContent = "❌";
 
+
+        /* If the user clicks a Save button without typing an event, the system will notify the user of this. */
         } else if(foundEvent === null && textarea.value.trim() === ""){
 
             eventText.textContent = "No event"
@@ -132,29 +123,45 @@ $(document).ready(function() {
             addRemoval.textContent = "saved to"
             emoji.textContent = "✔️"
         }
+        
+        debounceTimeout();
 
         eventSavedConfirmation.classList.remove("no-opacity");
         eventSavedConfirmation.classList.remove("opacity-0");
-    
-        setTimeout(fadeOut, 2000);
+
     }
 
-    function findAppointment(){
+    /* The Xpert Learning Assistant AI gave me the code for this function.  This function ensures that the function it wraps isn't 
+    called before the specified delay has passed.  I used this for the fadeOut() function to avoid click-spamming issues on the save buttons.*/
+    function debounce(func, delay){
+
+        var timeoutId;
+
+        return function(){
+            clearTimeout(timeoutId);
+            timeoutId = setTimeout(func, delay)
+        }
+    }
+
+    // This function retrieves an event from local storage.
+    function findEvent(){
 
         return localStorage.getItem(hour.id);
     }
 
-
+    /* This function adds a fade to the text that tells the user that an event has been saved to and removed from local stoarge.*/
     function fadeOut(){
+        eventSavedConfirmation.classList.add("no-opacity");
 
         eventSavedConfirmation.classList.add("fade-out");
 
         setTimeout(function(){
-            eventSavedConfirmation.classList.add("no-opacity");
+            
             eventSavedConfirmation.classList.remove("fade-out");
         }, 2000);
     }
 
+    /*This function renders the events saved in local storage to the webpage. */
     function renderSavedEvents(){
 
         for(var hourCounter = 9; hourCounter < 18; hourCounter++){
@@ -168,34 +175,18 @@ $(document).ready(function() {
         }
     }
 
+    // Here, I am declaring the global variables for the script.
     var eventSavedConfirmation = document.getElementById("event-saved-confirmation");
     var buttons = document.getElementsByClassName('saveBtn');
     var sections = document.getElementsByClassName('time-block');
     var counter = 0;
     var hour = null;
+    const debounceTimeout = debounce(fadeOut, 2000);
 
-    
+    // Here, I am adding an event listener to each Save button.
     for(counter = 0; counter < buttons.length; counter++){
 
         buttons[counter].addEventListener("click", saveEvent);
     }
 
-  // TODO: Add a listener for click events on the save button. This code should
-  // use the id in the containing time-block as a key to save the user input in
-  // local storage. HINT: What does `this` reference in the click listener
-  // function? How can DOM traversal be used to get the "hour-x" id of the
-  // time-block containing the button that was clicked? How might the id be
-  // useful when saving the description in local storage?
-  //
-  // TODO: Add code to apply the past, present, or future class to each time
-  // block by comparing the id to the current hour. HINTS: How can the id
-  // attribute of each time-block be used to conditionally add or remove the
-  // past, present, and future classes? How can Day.js be used to get the
-  // current hour in 24-hour time?
-  //
-  // TODO: Add code to get any user input that was saved in localStorage and set
-  // the values of the corresponding textarea elements. HINT: How can the id
-  // attribute of each time-block be used to do this?
-  //
-  // TODO: Add code to display the current date in the header of the page.
 });
