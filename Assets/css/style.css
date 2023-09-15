@@ -1,6 +1,9 @@
+/* This stylesheet is for the Work Day Scheduler homework assignment at the 
+OSU flex web development bootcamp. */
+
 body {
-  font-family: 'Open Sans', sans-serif;
-  font-size: 16px;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 16px;
 }
 
 header{
@@ -12,18 +15,16 @@ i{
 }
 
 p {
-    height: max-content;
     background-color: white;
+    height: max-content;
     vertical-align: middle;
 }
 
 textarea {
-  background: transparent;
-  border: none;
-  resize: none;
-  color: #000000;
-  border-left: 1px solid black;
-  padding: 10px;
+    border: none;
+    border-left: 1px solid black;
+    padding: 10px;
+    resize: none;
 }
 
 .align-center{
@@ -35,14 +36,17 @@ textarea {
     height: 100%;
 }
 
+/* This class is to remove the margin at the bottom of each of the hour paragraphs.  The calc() functions
+then makes the padding of each of those paragraphs take up all of the space left over after the hour text is drawn 
+to the page.  This lets the hour be centered between the top and bottom dashed lines. */
 .custom-padding{
+    margin-bottom: 0;
     padding-top: calc((4.189em) / 2);
     padding-bottom: calc((4.189em) / 2);
-    margin-bottom: 0;
 }
 
 .description {
-  white-space: pre-wrap;
+    white-space: pre-wrap;
 }
 
 .fade-out{
@@ -50,97 +54,98 @@ textarea {
     transition: opacity 2s;
 }
 
-.time-block {
-  border-radius: 15px;
-}
-
-.row {
-  border-top: 1px solid white;
-  flex-wrap: nowrap;
-  justify-content: center;
-  
+.future {
+    background-color: #77dd77;
+    color: white;
 }
 
 .hour {
-  background-color: #ffffff;
-  color: #000000;
-  border-top: 1px dashed #000000;
+    border-top: 1px dashed #000000;
+    background-color: #ffffff;
+    color: #000000;
 }
 
 .no-opacity{
     opacity: 0;
 }
 
-.all-opacity{
-    opacity: 100;
-}
-
 .past {
-  background-color: #d3d3d3;
-  color: white;
+    background-color: #d3d3d3;
+    color: white;
 }
 
 .present {
-  background-color: #ff6961;
-  color: white;
+    background-color: #ff6961;
+    color: white;
 }
 
-.future {
-  background-color: #77dd77;
-  color: white;
+.row {
+    border-top: 1px solid white;
+    flex-wrap: nowrap;
+    justify-content: center;
 }
 
 .saveBtn {
-  border-left: 1px solid black;
-  border-top-right-radius: 15px;
-  border-bottom-right-radius: 15px;
-  background-color: #06aed5;
-  color: white;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+    align-items: center;
+    background-color: #06aed5;
+    border-left: 1px solid black;
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+    color: white;
+    display: flex;
+    justify-content: center;
 }
 
 .saveBtn i:hover {
-  font-size: 20px;
-  transition: all 0.3s ease-in-out;
+    font-size: 20px;
+    transition: all 0.3s ease-in-out;
+}
+
+.time-block {
+    border-radius: 15px;
 }
 
 #event-saved-confirmation{
-    width: fit-content;
-    margin: auto;
+    margin-bottom: 1em;
+    margin-left: auto;
+    margin-right: auto;
+    
 }
 
 #local-storage-text{
     color: red;
     font-family: monospace, Times, serif;
+    
 }
 
+/* This selector makes the final hour <p> tag have a dashed border at the bottom of it. */
 #hour-17{
     margin-bottom: 1.5em;
 }
 
-@media screen and (max-width: 440px) {
-    p{
-        width: 100%;
-        padding-left: 0;
+/* These media queries change the font size and width of elements to keep the webpage looking decent as
+the screen gets smaller.*/
 
-        font-size: 5vw;
-        color: black;
-    }
 
-    .col-small {
-
-        flex: 0 0 auto;
-        width: 30%;
-    }
-}
-
-@media  screen and (max-width: 500px){
+@media screen and (max-width: 500px){
     
     header{
         padding-left: 0.7em;
         padding-right: 0.7em;
+    }
+}
+
+@media screen and (max-width: 440px) {
+    p{
+        color: black;
+        font-size: 5vw;
+        padding-left: 0;
+        width: 100%;
+    }
+
+    .col-small {
+        flex: 0 0 auto;
+        width: 30%;
     }
 }
 
@@ -158,9 +163,8 @@ textarea {
         padding-right: 0.5em;
     }
 
-    p.align-center{
-        font-size: 7.5vw;
-        
+    p.align-left{
+        font-size: 8.5vw;
         width: 90%;
     }
 }
@@ -168,21 +172,21 @@ textarea {
 @media screen and (max-width: 250px) {
 
     .col-small {
-
         width: 35%;
     }
 }
 
 @media screen and (max-width: 225px){
+    
     textarea{
         font-size: 8vw;
     }
 }
 
-
 @media screen and (max-width: 200px) {
+    
     p{
-        font-size: 5vw;
+        font-size: 7.5vw;
     }
 
     .col-small {
@@ -190,6 +194,7 @@ textarea {
         width: 45%; 
     }
 
+    /* This selector adds a scrollbar to the textareas at very small screen sizes. */
     .description{
         white-space: nowrap;
     }
