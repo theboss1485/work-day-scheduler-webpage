@@ -151,6 +151,7 @@ $(document).ready(function() {
 
     /* This function adds a fade to the text that tells the user that an event has been saved to and removed from local stoarge.*/
     function fadeOut(){
+        
         eventSavedConfirmation.classList.add("no-opacity");
 
         eventSavedConfirmation.classList.add("fade-out");
@@ -158,6 +159,7 @@ $(document).ready(function() {
         setTimeout(function(){
             
             eventSavedConfirmation.classList.remove("fade-out");
+
         }, 2000);
     }
 
@@ -178,7 +180,6 @@ $(document).ready(function() {
     // Here, I am declaring the global variables for the script.
     var eventSavedConfirmation = document.getElementById("event-saved-confirmation");
     var buttons = document.getElementsByClassName('saveBtn');
-    var sections = document.getElementsByClassName('time-block');
     var counter = 0;
     var hour = null;
     const debounceTimeout = debounce(fadeOut, 2000);
